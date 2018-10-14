@@ -6,9 +6,9 @@ from sklearn.ensemble import IsolationForest
 
 
 class IsolatedForest:
-    def __init__(self):
+    def __init__(self,n_features):
         rng = np.random.RandomState(42)
-        self.clf = IsolationForest(max_samples=105,max_features=207, random_state=rng, contamination=0, behaviour="new")
+        self.clf = IsolationForest(max_samples=105,max_features=n_features, random_state=rng, contamination=0, behaviour="new")
 
     def train(self,train):
         self.clf.fit(train)

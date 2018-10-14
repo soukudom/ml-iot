@@ -61,16 +61,21 @@ class DataParser:
             return None
 
         data = []
+        data2 = []
         for flow in self.flows:
             if len(flow['packets']) == 0:
                 continue
+            #print("data parser len and sum",len( flow["byte_dist"]),sum( flow["byte_dist"]))
+            # Divide every item in the field by sum of items
             if 'byte_dist' in flow and sum(flow['byte_dist']) > 0:
                 tmp = map(lambda x: x/float(sum(flow['byte_dist'])),flow['byte_dist'])
                 data.append(tmp)
+                data2.append(list(tmp))
             else:
                 data.append(np.zeros(256))
+                data2.append(np.zeros(256))
 
-        return data
+        return data, data2
 
 
     def getIndividualFlowPacketLengths(self):
@@ -88,6 +93,7 @@ class DataParser:
             transMat = np.zeros((numRows,numRows))
             if len(flow['packets']) == 0:
                 continue
+            # Just one packet in the flow
             elif len(flow['packets']) == 1:
                 curPacketSize = min(int(flow['packets'][0]['b']/binSize),numRows-1)
                 transMat[curPacketSize,curPacketSize] = 1
@@ -95,6 +101,7 @@ class DataParser:
                 continue
 
             # get raw transition counts
+            # Fill in matrix based on number of bytes in one packet
             for i in range(1,len(flow['packets'])):
                 prevPacketSize = min(int(flow['packets'][i-1]['b']/binSize),numRows-1)
                 if 'b' not in flow['packets'][i]:
@@ -103,6 +110,7 @@ class DataParser:
                 transMat[prevPacketSize,curPacketSize] += 1
 
             # get empirical transition probabilities
+            # Divide every row by its sum of items
             for i in range(numRows):
                 if float(np.sum(transMat[i:i+1])) != 0:
                     transMat[i:i+1] = transMat[i:i+1]/float(np.sum(transMat[i:i+1]))
@@ -123,6 +131,7 @@ class DataParser:
         else:
             numRows = 30
             binSize = 50.0
+        # Similar to the getIndividualFlowPacketsLengths
         for flow in self.flows:
             transMat = np.zeros((numRows,numRows))
             if len(flow['packets']) == 0:
@@ -171,14 +180,14 @@ class DataParser:
             else:
                 tmp.append(0) # ICMP/etc.
             
-           # if flow['sa'] != None:
-           #     tmp.append(float(flow['sa'].replace('.',''))) # source address
-           # else:
-           #     tmp.append(0)
-           # if flow['da'] != None:
-           #     tmp.append(float(flow['da'].replace('.',''))) # destination address
-            #else:
-            #    tmp.append(0)
+            if flow['sa'] != None:
+                tmp.append(float(flow['sa'].replace('.',''))) # source address
+            else:
+                tmp.append(0)
+            if flow['da'] != None:
+                tmp.append(float(flow['da'].replace('.',''))) # destination address
+            else:
+                tmp.append(0)
             if 'num_pkts_in' in flow:
                 tmp.append(flow['num_pkts_in']) # inbound packets
             else:

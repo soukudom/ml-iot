@@ -28,11 +28,10 @@ class Pull:
             label = 1 #int(f.split("-")[-1].split(".")[0])
 
             #tmpTLS = dParse.getTLSInfo()
-            tmpBD = dParse.getByteDistribution()
+            tmpBD, tmpBDL = dParse.getByteDistribution()
             tmpIPT = dParse.getIndividualFlowIPTs()
             tmpPL = dParse.getIndividualFlowPacketLengths()
             tmp = dParse.getIndividualFlowMetadata()
-
 
             if tmp != None and tmpPL != None and tmpIPT != None:
                 # iterate over every flow
@@ -42,16 +41,20 @@ class Pull:
                     tmp_data.extend(tmpPL[i])
                     tmp_data.extend(tmpIPT[i])
                     #tmp_data.extend(tmpBD[i])
+                    tmp_data.extend(tmpBDL[i])
                     
-                   # print("FlowMetadata",tmp_data[:7])
+                    #print("FlowMetadata",tmp[i])
                    # print("PacketLenghts",tmpPL[i])
                    # print("IndividualFlowIPT",tmpIPT[i])
-                    #print("BD",len(tmp_data[-256:]))
+                    #print("bd",list(tmpBD[i]))
                  #   tmp_data.extend(tmpTLS[i])
     
                     if self.features_cnt == 0:
                         self.features_cnt = len(tmp_data)
                     
                     self.data.append(tmp_data)
+                    #print(self.data[i])
+                    #print("final data length and sum",len(self.data[i]),sum(self.data[i]))
                     self.labels.append(label)
+                #input("press enter")
 

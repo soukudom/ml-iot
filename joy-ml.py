@@ -16,7 +16,7 @@ v = Pull("input-data-sets/valid/")
 #m.predict(a.data)
 
 from scikit_IsolatedForest import IsolatedForest
-i = IsolatedForest()
+i = IsolatedForest(t.features_cnt)
 i.train(t.data)
 i.predict(v.data,a.data)
 
