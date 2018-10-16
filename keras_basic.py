@@ -4,14 +4,14 @@ import struct, socket
 from sklearn import preprocessing
 from data_parser import DataParser
 
-
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.optimizers import Adam
 
 class KerasClassifier:
-    def __init__(self):
+    def __init__(self,n_features):
         self.model = Sequential()
+        self.n_features = n_features
 
     def train(self, data, labels):
         data_train = np.array(data)
@@ -19,9 +19,9 @@ class KerasClassifier:
         #    for j in i:
         #        print(type(j))
         #self.model = Sequential()
-        self.model.add(Dense(32, activation='relu',input_dim=463))
-        self.model.add(Dense(16, activation='relu',input_dim=463))
-        self.model.add(Dense(8, activation='relu',input_dim=463))
+        self.model.add(Dense(32, activation='relu',input_dim=self.n_features))
+        self.model.add(Dense(16, activation='relu',input_dim=self.n_features))
+        self.model.add(Dense(8, activation='relu',input_dim=self.n_features))
         self.model.add(Dense(1,activation='softmax'))
         self.model.compile(optimizer="adam",
                   loss="binary_crossentropy",
@@ -30,6 +30,7 @@ class KerasClassifier:
 
     def predict(self, data):
         prediction = self.model.predict(np.array(data),steps=1)
+
         print("Prediction result")
         ok = 0
         non_ok = 0

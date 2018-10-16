@@ -10,7 +10,7 @@ class OCSVM:
     def __init__(self):
         # random state is deprecated
         # rng = np.random.RandomState(42)
-        self.clf = OneClassSVM(gamma="scale")
+        self.clf = OneClassSVM(gamma="scale", nu=0.1)
         self.scaler = StandardScaler()
 
     def train(self,train):

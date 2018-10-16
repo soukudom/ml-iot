@@ -11,7 +11,7 @@ a = Pull("input-data-sets/test/anomaly-traffic")
 v = Pull("input-data-sets/valid/")
 
 #from keras_basic import KerasClassifier
-#m = KerasClassifier()
+#m = KerasClassifier(t.features_cnt)
 #m.train(t.data,t.labels)
 #m.predict(a.data)
 
