@@ -175,15 +175,15 @@ class DataParser:
                 tmp.append(float(flow['dp'])) # destination port
             else:
                 tmp.append(0) # ICMP/etc.
-            if flow['sp'] != None:
-                tmp.append(float(flow['sp'])) # source port
-            else:
-                tmp.append(0) # ICMP/etc.
+           # if flow['sp'] != None:
+           #     tmp.append(float(flow['sp'])) # source port
+           # else:
+           #     tmp.append(0) # ICMP/etc.
             
-            if flow['sa'] != None:
-                tmp.append(float(flow['sa'].replace('.',''))) # source address
-            else:
-                tmp.append(0)
+            #if flow['sa'] != None:
+            #    tmp.append(float(flow['sa'].replace('.',''))) # source address
+            #else:
+            #    tmp.append(0)
             if flow['da'] != None:
                 tmp.append(float(flow['da'].replace('.',''))) # destination address
             else:

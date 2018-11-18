@@ -21,6 +21,19 @@ class IsolatedForest:
         #anomaly = self.scaler.fit_transform(anomaly) 
         y_pred_valid = self.clf.predict(valid)
         y_pred_outliers = self.clf.predict(anomaly)
+        score = self.clf.decision_function(valid)
+        cnt_2 = 0
+        cnt_5 = 0
+        cnt1 = 0
+        for i in score:
+            if i > 0.1:
+                cnt_2 +=1
+            elif i >= 0.01:
+                cnt_5 += 1
+            elif i < 0:
+                cnt1 +=1
+        print(len(score))
+        print("cnt 2",cnt_2,"cnt 5",cnt_5,"cnt-1",cnt1)
         
         print("IsolatedForest result")
         print(" Validation data:", list(y_pred_valid).count(1)/y_pred_valid.shape[0])

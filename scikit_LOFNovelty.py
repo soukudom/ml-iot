@@ -21,8 +21,12 @@ class LOFNovelty:
 
         y_pred_valid = self.clf.predict(valid)
         y_pred_outliers = self.clf.predict(anomaly)
+        score_valid = self.clf.decision_function(valid)
+        score_anomaly = self.clf.decision_function(anomaly)
 
         print("LOF Novelty result")
         print(" Validation data:", list(y_pred_valid).count(1)/y_pred_valid.shape[0])
+        print("Score", score_valid.mean(), score_valid.std())
         print(" Outlier data:", list(y_pred_outliers).count(-1)/y_pred_outliers.shape[0])
+        print("Score", score_anomaly.max(), score_anomaly.std())
 

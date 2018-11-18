@@ -30,6 +30,11 @@ l.predict(v.data,a.data)
 #r.train(t.data,t.labels)
 #r.predict(v.data,a.data)
 
+#from scikit_AdaBoost import AdaBoost
+#r = AdaBoost()
+#r.train(t.data,t.labels)
+#r.predict(v.data,a.data)
+
 # Warninig: Minimum number of classes is 2
 #from scikit_GradientBoostingClassifier import GradientBoosting
 #g = GradientBoosting()
@@ -41,7 +46,7 @@ l.predict(v.data,a.data)
 #k.train(t.data)
 #k.predict(v.data,a.data)
 
-from scikit_OneClassSVM import OCSVM
-o = OCSVM()
-o.train(t.data)
-o.predict(v.data,a.data)
+#from scikit_OneClassSVM import OCSVM
+#o = OCSVM()
+#o.train(t.data)
+#o.predict(v.data,a.data)
