@@ -2,11 +2,12 @@ from data_parser import DataParser
 import os
 
 class Pull:
-    def __init__(self,idir):
+    def __init__(self,idir,label):
         self.data = []
         self.labels = []
         self.flow_cnt = 0
         self.features_cnt = 0
+        self.label = label
 
         self.load_data(idir)
 
@@ -25,7 +26,7 @@ class Pull:
             # binary classification label
             # 1 - correct traffic
             # 0 - anomaly traffic
-            label = 1 #int(f.split("-")[-1].split(".")[0])
+            #label = 1 #int(f.split("-")[-1].split(".")[0])
 
             #tmpTLS = dParse.getTLSInfo()
             tmpBD, tmpBDL = dParse.getByteDistribution()
@@ -55,6 +56,6 @@ class Pull:
                     self.data.append(tmp_data)
                     #print(self.data[i])
                     #print("final data length and sum",len(self.data[i]),sum(self.data[i]))
-                    self.labels.append(label)
+                    self.labels.append(self.label)
                 #input("press enter")
 

@@ -6,9 +6,9 @@ import imp
 # TODO input param ....
 # TODO call ml backend
 
-t = Pull("input-data-sets/train/")
-a = Pull("input-data-sets/test/anomaly-traffic")
-v = Pull("input-data-sets/valid/")
+t = Pull("input-data-sets/train/",1)
+a = Pull("input-data-sets/test/anomaly-traffic",1)
+v = Pull("input-data-sets/valid/",1)
 
 #from keras_basic import KerasClassifier
 #m = KerasClassifier(t.features_cnt)
