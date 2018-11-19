@@ -12,7 +12,6 @@ class Pull:
         self.load_data(idir)
 
     def load_data(self, idir):
-
         # loop via all files in the source dir
         files = os.listdir(idir)
         for f in files:
@@ -33,7 +32,7 @@ class Pull:
             tmpIPT = dParse.getIndividualFlowIPTs()
             tmpPL = dParse.getIndividualFlowPacketLengths()
             tmp = dParse.getIndividualFlowMetadata()
-
+           
             if tmp != None and tmpPL != None and tmpIPT != None:
                 # iterate over every flow
                 for i in range(len(tmp)):

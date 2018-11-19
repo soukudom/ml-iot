@@ -69,12 +69,11 @@ class DataParser:
             # Divide every item in the field by sum of items
             if 'byte_dist' in flow and sum(flow['byte_dist']) > 0:
                 tmp = map(lambda x: x/float(sum(flow['byte_dist'])),flow['byte_dist'])
-                data.append(tmp)
+                #data.append(tmp)
                 data2.append(list(tmp))
             else:
-                data.append(np.zeros(256))
+                #data.append(np.zeros(256))
                 data2.append(np.zeros(256))
-
         return data, data2
 
 

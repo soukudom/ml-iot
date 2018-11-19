@@ -1,29 +1,34 @@
 #!/usr/bin/env python3
 
-from pull_data import Pull
 import imp
+from pull_data import Pull
+from sklearn.model_selection import KFold
 
 # TODO input param ....
 # TODO call ml backend
 
-t = Pull("input-data-sets/train/",1)
-a = Pull("input-data-sets/test/anomaly-traffic",1)
-v = Pull("input-data-sets/valid/",1)
+#t = Pull("input-data-sets/train/",1)
+#a = Pull("input-data-sets/test/anomaly-traffic",1)
+#v = Pull("input-data-sets/valid/",1)
+c_ikea = Pull("input-data-sets/ikea/",1)
+c_cam = Pull("input-data-sets/ipcam/",2)
+c_data = c_ikea.data + c_cam.data
+c_target = c_ikea.labels + c_cam.labels
 
 #from keras_basic import KerasClassifier
 #m = KerasClassifier(t.features_cnt)
 #m.train(t.data,t.labels)
 #m.predict(a.data)
 
-from scikit_IsolatedForest import IsolatedForest
-i = IsolatedForest(t.features_cnt)
-i.train(t.data)
-i.predict(v.data,a.data)
+#from scikit_IsolatedForest import IsolatedForest
+#i = IsolatedForest(t.features_cnt)
+#i.train(t.data)
+#i.predict(v.data,a.data)
 
-from scikit_LOFNovelty import LOFNovelty
-l = LOFNovelty()
-l.train(t.data)
-l.predict(v.data,a.data)
+#from scikit_LOFNovelty import LOFNovelty
+#l = LOFNovelty()
+#l.train(t.data)
+#l.predict(v.data,a.data)
 
 #from scikit_RandomForest import RandomForest
 #r = RandomForest(t.features_cnt)
@@ -50,3 +55,8 @@ l.predict(v.data,a.data)
 #o = OCSVM()
 #o.train(t.data)
 #o.predict(v.data,a.data)
+
+kf = KFold(3, True, 1)
+for train_index, test_index in kf.split(c_data):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    
