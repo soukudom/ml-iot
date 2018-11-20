@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pylab import savefig
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn import metrics
 
 
 class AdaBoost:
@@ -13,7 +14,7 @@ class AdaBoost:
     def train(self,train,labels):
         self.clf.fit(train,labels)
 
-    def predict(self,valid,anomaly):
-        y_pred_valid = self.clf.predict(valid)
-        y_pred_outliers = self.clf.predict(anomaly)
+    def predict(self,valid_data, valid_labels):
+        y_pred = self.clf.predict(valid_data)
+        print(metrics.accuracy_score(y_pred,valid_labels))
         # return value is number of predicted label

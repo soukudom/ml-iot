@@ -26,7 +26,7 @@ class LOFNovelty:
 
         print("LOF Novelty result")
         print(" Validation data:", list(y_pred_valid).count(1)/y_pred_valid.shape[0])
-        print("Score", score_valid.mean(), score_valid.std())
+        #print("Score", score_valid.mean(), score_valid.std())
         print(" Outlier data:", list(y_pred_outliers).count(-1)/y_pred_outliers.shape[0])
-        print("Score", score_anomaly.max(), score_anomaly.std())
+        #print("Score", score_anomaly.max(), score_anomaly.std())
 

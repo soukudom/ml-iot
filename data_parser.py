@@ -170,10 +170,10 @@ class DataParser:
             # no usage now
             key = flow['sa'].replace('.','')+flow['da'].replace('.','')+str(flow['sp'])+str(flow['dp'])+str(flow['pr'])
 
-            if flow['dp'] != None:
-                tmp.append(float(flow['dp'])) # destination port
-            else:
-                tmp.append(0) # ICMP/etc.
+            #if flow['dp'] != None:
+            #    tmp.append(float(flow['dp'])) # destination port
+            #else:
+            #    tmp.append(0) # ICMP/etc.
            # if flow['sp'] != None:
            #     tmp.append(float(flow['sp'])) # source port
            # else:
