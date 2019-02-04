@@ -168,7 +168,7 @@ class DataParser:
             tmp = []
 
             # no usage now
-            key = flow['sa'].replace('.','')+flow['da'].replace('.','')+str(flow['sp'])+str(flow['dp'])+str(flow['pr'])
+            #key = flow['sa'].replace('.','')+flow['da'].replace('.','')+str(flow['sp'])+str(flow['dp'])+str(flow['pr'])
 
             #if flow['dp'] != None:
             #    tmp.append(float(flow['dp'])) # destination port
@@ -183,10 +183,10 @@ class DataParser:
             #    tmp.append(float(flow['sa'].replace('.',''))) # source address
             #else:
             #    tmp.append(0)
-            if flow['da'] != None:
-                tmp.append(float(flow['da'].replace('.',''))) # destination address
-            else:
-                tmp.append(0)
+            #if flow['da'] != None:
+            #    tmp.append(float(flow['da'].replace('.',''))) # destination address
+            #else:
+            #    tmp.append(0)
             if 'num_pkts_in' in flow:
                 tmp.append(flow['num_pkts_in']) # inbound packets
             else:
