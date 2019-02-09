@@ -14,7 +14,10 @@ class DataParser:
     def __init__(self, json_file):
         self.flows = []
         self.compact = 1
+        self.analyse = 1
         self.lines_cnt = 0
+        self.error_cnt = 0
+        self.error = None
 
         with open(json_file,'r') as fp:
             for line in fp:
@@ -22,7 +25,9 @@ class DataParser:
                     tmp = json.loads(line)
                     self.flows.append(tmp)
                     self.lines_cnt += 1
-                except:
+                except Exception as e:
+                    self.error = e
+                    self.error_cnt += 1
                     continue
 
     def getTLSInfo(self):
@@ -82,6 +87,8 @@ class DataParser:
             return None
 
         data = []
+        analyse_data = [] #list of matrixes for jupyter graphs
+
         if self.compact:
             numRows = 10
             binSize = 150.0
@@ -91,12 +98,15 @@ class DataParser:
         for flow in self.flows:
             transMat = np.zeros((numRows,numRows))
             if len(flow['packets']) == 0:
+                data.append(list(transMat.flatten()))
+                analyse_data.append(list(transMat.flatten()))
                 continue
             # Just one packet in the flow
             elif len(flow['packets']) == 1:
                 curPacketSize = min(int(flow['packets'][0]['b']/binSize),numRows-1)
                 transMat[curPacketSize,curPacketSize] = 1
                 data.append(list(transMat.flatten()))
+                analyse_data.append(list(transMat.flatten()))
                 continue
 
             # get raw transition counts
@@ -108,15 +118,22 @@ class DataParser:
                 curPacketSize = min(int(flow['packets'][i]['b']/binSize),numRows-1)
                 transMat[prevPacketSize,curPacketSize] += 1
 
-            # get empirical transition probabilities
-            # Divide every row by its sum of items
-            for i in range(numRows):
-                if float(np.sum(transMat[i:i+1])) != 0:
-                    transMat[i:i+1] = transMat[i:i+1]/float(np.sum(transMat[i:i+1]))
+            if self.analyse == 1:
+                analyse_data.append(list(transMat.flatten()))
+           
+            else: 
+                # get empirical transition probabilities
+                # Divide every row by its sum of items
+                for i in range(numRows):
+                    if float(np.sum(transMat[i:i+1])) != 0:
+                        transMat[i:i+1] = transMat[i:i+1]/float(np.sum(transMat[i:i+1]))
 
-            data.append(list(transMat.flatten()))
+                data.append(list(transMat.flatten()))
 
-        return data
+        if self.analyse == 1:
+            return analyse_data
+        else:
+            return data
 
 
     def getIndividualFlowIPTs(self):
@@ -124,6 +141,7 @@ class DataParser:
             return None
 
         data = []
+        analyse_data = [] #list of matrixes for jupyter graphs
         if self.compact:
             numRows = 10
             binSize = 50.0
@@ -134,11 +152,14 @@ class DataParser:
         for flow in self.flows:
             transMat = np.zeros((numRows,numRows))
             if len(flow['packets']) == 0:
+                data.append(list(transMat.flatten()))
+                analyse_data.append(list(transMat.flatten()))
                 continue
             elif len(flow['packets']) == 1:
                 curIPT = min(int(flow['packets'][0]['ipt']/float(binSize)),numRows-1)
                 transMat[curIPT,curIPT] = 1
                 data.append(list(transMat.flatten()))
+                analyse_data.append(list(transMat.flatten()))
                 continue
 
             # get raw transition counts
@@ -147,14 +168,20 @@ class DataParser:
                 curIPT = min(int(flow['packets'][i]['ipt']/float(binSize)),numRows-1)
                 transMat[prevIPT,curIPT] += 1
                 
-            # get empirical transition probabilities
-            for i in range(numRows):
-                if float(np.sum(transMat[i:i+1])) != 0:
-                    transMat[i:i+1] = transMat[i:i+1]/float(np.sum(transMat[i:i+1]))
+            if self.analyse == 1:
+                analyse_data.append(list(transMat.flatten()))
+            else:
+                # get empirical transition probabilities
+                for i in range(numRows):
+                    if float(np.sum(transMat[i:i+1])) != 0:
+                        transMat[i:i+1] = transMat[i:i+1]/float(np.sum(transMat[i:i+1]))
 
-            data.append(list(transMat.flatten()))
+                data.append(list(transMat.flatten()))
 
-        return data
+        if self.analyse == 1:
+            return analyse_data
+        else:    
+            return data
 
 
     def getIndividualFlowMetadata(self):
@@ -163,8 +190,8 @@ class DataParser:
 
         data = []
         for flow in self.flows:
-            if len(flow['packets']) == 0:
-                continue
+            #if len(flow['packets']) == 0:
+            #    continue
             tmp = []
 
             # no usage now
