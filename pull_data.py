@@ -16,7 +16,7 @@ class Pull:
         files = os.listdir(idir)
         for f in files:
             try:
-                dParse = DataParser(idir + "/" + f)
+                dParse = DataParser(idir + "/" + f,analyse=0,compact=1)
                 self.flow_cnt += dParse.lines_cnt
             except:
                 print("Error: failued to parse file", (idir + f))
@@ -31,7 +31,8 @@ class Pull:
             tmpBD, tmpBDL = dParse.getByteDistribution()
             tmpIPT = dParse.getIndividualFlowIPTs()
             tmpPL = dParse.getIndividualFlowPacketLengths()
-            tmp = dParse.getIndividualFlowMetadata()
+            tmp = dParse.getIndividualFlowMetadata(PKTS=1, BYTES=1, FLOW_TIME=1, WHT=1, BYTE_DIST_M=1, BYTES_DIST_S=1, ENTROPY=1, IDP=1)
+            
            
             if tmp != None and tmpPL != None and tmpIPT != None:
                 # iterate over every flow
