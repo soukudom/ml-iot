@@ -31,9 +31,8 @@ class Pull:
             tmpBD, tmpBDL = dParse.getByteDistribution()
             tmpIPT = dParse.getIndividualFlowIPTs()
             tmpPL = dParse.getIndividualFlowPacketLengths()
-            tmp = dParse.getIndividualFlowMetadata(PKTS=1, BYTES=1, FLOW_TIME=1, WHT=1, BYTE_DIST_M=1, BYTES_DIST_S=1, ENTROPY=1, IDP=1)
+            tmp = dParse.getIndividualFlowMetadata(PKTS=1, BYTES=1, FLOW_TIME=1, WHT=1, BYTE_DIST_M=1, BYTE_DIST_S=1, ENTROPY=1, IDP=1)
             
-           
             if tmp != None and tmpPL != None and tmpIPT != None:
                 # iterate over every flow
                 for i in range(len(tmp)):

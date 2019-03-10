@@ -1,8 +1,16 @@
 #!/usr/bin/env python3
-from data_parser import DataParser
+import imp
+from sklearn.model_selection import KFold
+from sklearn.model_selection import train_test_split
+import numpy as np
+#from data_parser import DataParser
+from pull_data import Pull
+import os
 
+IKEA_APP = "dev-annotated-datasets/ikea-app"
+IKEA_HOMEKIT = "dev-annotated-datasets/ikea-homekit"
+IP_CAM = "dev-annotated-datasets/ipcam"
+NORMAL_USER = "dev-annotated-datasets/normal-user"
+VOICE_ASSISTANT = "dev-annotated-datasets/voice-assistant"
 
-dParse = DataParser("annotated-datasets/voice-assistant/google-mini-additional/google-mac2.json")
-tmp = dParse.getIndividualFlowPacketLengths()
-print(tmp[0])
-print(tmp[1])
+t = Pull(IKEA_APP+"/train/",1)

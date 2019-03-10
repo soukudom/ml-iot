@@ -63,8 +63,8 @@ class DataParser:
         data = []
         data2 = []
         for flow in self.flows:
-            if len(flow['packets']) == 0:
-                continue
+            #if len(flow['packets']) == 0:
+            #    continue
             #print("data parser len and sum",len( flow["byte_dist"]),sum( flow["byte_dist"]))
             # Divide every item in the field by sum of items
             if 'byte_dist' in flow and sum(flow['byte_dist']) > 0:
@@ -179,7 +179,7 @@ class DataParser:
             return data
 
 
-    def getIndividualFlowMetadata(self, PKTS, BYTES, FLOW_TIME, WHT, BYTE_DIST_M, BYTES_DIST_S, ENTROPY, IDP):
+    def getIndividualFlowMetadata(self, PKTS, BYTES, FLOW_TIME, WHT, BYTE_DIST_M, BYTE_DIST_S, ENTROPY, IDP):
         if self.flows == []:
             return None
 
@@ -256,7 +256,7 @@ class DataParser:
                 if "idp_len_in" in flow:
                     tmp.append(flow["idp_len_in"])
                 else:
-                tmp.append(0)
+                    tmp.append(0)
                 # IDP out
                 if "idp_len_out" in flow:
                     tmp.append(flow["idp_len_out"])

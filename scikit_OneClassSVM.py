@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from pylab import savefig
 from sklearn.svm import OneClassSVM
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix
 
 
 class OCSVM:
@@ -25,5 +26,7 @@ class OCSVM:
         y_pred_outliers = self.clf.predict(anomaly)
 
         print("OneClassSVM result")
+        print(confusion_matrix([1]*len(y_pred_valid),y_pred_valid).ravel())
+        print(confusion_matrix([-1]*len(y_pred_outliers),y_pred_outliers).ravel())
         print(" Validation data:", list(y_pred_valid).count(1)/y_pred_valid.shape[0])
         print(" Outlier data:", list(y_pred_outliers).count(-1)/y_pred_outliers.shape[0])
