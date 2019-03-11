@@ -28,20 +28,22 @@ class Pull:
             #label = 1 #int(f.split("-")[-1].split(".")[0])
 
             #tmpTLS = dParse.getTLSInfo()
-            tmpBD, tmpBDL = dParse.getByteDistribution()
-            tmpIPT = dParse.getIndividualFlowIPTs()
+
+            # Features extraction
+            #tmpBD, tmpBDL = dParse.getByteDistribution()
+            #tmpIPT = dParse.getIndividualFlowIPTs()
             tmpPL = dParse.getIndividualFlowPacketLengths()
-            tmp = dParse.getIndividualFlowMetadata(PKTS=1, BYTES=1, FLOW_TIME=1, WHT=1, BYTE_DIST_M=1, BYTE_DIST_S=1, ENTROPY=1, IDP=1)
+            tmp = dParse.getIndividualFlowMetadata(PKTS=1, BYTES=1, FLOW_TIME=0, WHT=1, BYTE_DIST_M=0, BYTE_DIST_S=0, ENTROPY=0, IDP=1)
             
-            if tmp != None and tmpPL != None and tmpIPT != None:
+            if tmpPL != None:# and tmpPL != None and tmpIPT != None:
                 # iterate over every flow
-                for i in range(len(tmp)):
+                for i in range(len(tmpPL)):
                     tmp_data = []
                     tmp_data.extend(tmp[i])
                     tmp_data.extend(tmpPL[i])
-                    tmp_data.extend(tmpIPT[i])
-                    #tmp_data.extend(tmpBD[i])
-                    tmp_data.extend(tmpBDL[i])
+                    #tmp_data.extend(tmpIPT[i])
+                    ##tmp_data.extend(tmpBD[i])
+                    #tmp_data.extend(tmpBDL[i])
                     
                     #print("FlowMetadata",tmp[i])
                    # print("PacketLenghts",tmpPL[i])
