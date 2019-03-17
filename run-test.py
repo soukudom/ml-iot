@@ -16,23 +16,23 @@ IP_CAM = "dev-annotated-datasets/ipcam"
 NORMAL_USER = "dev-annotated-datasets/normal-user"
 VOICE_ASSISTANT = "dev-annotated-datasets/voice-assistant"
 
-t = Pull(IKEA_APP+"/train/",1)
-a = Pull(IKEA_APP+"/anomaly/",1)
-v = Pull(IKEA_APP+"/valid/",1)
+t = Pull(IKEA_HOMEKIT+"/train/",1)
+a = Pull(IKEA_HOMEKIT+"/anomaly/",1)
+#v = Pull(IKEA_APP+"/valid/",1)
 
-i = IsolatedForest(t.features_cnt)
-i.train(t.data)
+#i = IsolatedForest(t.features_cnt)
+#i.train(t.data)
 #i.predict(v.data,a.data)
-clf = i.getModel()
-y_pred_valid = clf.predict(v.data)
-print(y_pred_valid)
+#clf = i.getModel()
+#y_pred_valid = clf.predict(v.data)
+#print(y_pred_valid)
 
 
 l = LOFNovelty()
 l.train(t.data)
-l.predict(v.data,a.data)
+#l.predict(v.data,a.data)
 
 
-o = OCSVM()
-o.train(t.data)
-o.predict(v.data,a.data)
+#o = OCSVM()
+#o.train(t.data)
+#o.predict(v.data,a.data)

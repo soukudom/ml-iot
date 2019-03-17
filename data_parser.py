@@ -189,29 +189,67 @@ class DataParser:
             #    continue
             tmp = []
 
-            if PKTS:
-                # Pkts in
-                if 'num_pkts_in' in flow:
-                    tmp.append(flow['num_pkts_in']) # inbound packets
+            if PKTS or self.analyse:
+                if self.analyse:
+                    # Pkts in
+                    if 'num_pkts_in' in flow:
+                        tmp.append(flow['num_pkts_in']) # inbound packets
+                    else:
+                        tmp.append(0)
+                    # Pkts out
+                    if 'num_pkts_out' in flow:
+                        tmp.append(flow['num_pkts_out']) # outbound packets
+                    else:
+                        tmp.append(0)
                 else:
-                    tmp.append(0)
-                # Pkts out
-                if 'num_pkts_out' in flow:
-                    tmp.append(flow['num_pkts_out']) # outbound packets
-                else:
-                    tmp.append(0)
-            if BYTES:
-                # Bytes in
-                if 'bytes_in' in flow:
-                    tmp.append(flow['bytes_in']) # inbound bytes
-                else:
-                    tmp.append(0)
-                # Bytes out
-                if 'bytes_out' in flow:
-                    tmp.append(flow['bytes_out']) # outbound bytes
-                else:
-                    tmp.append(0)
-            if FLOW_TIME:
+                    if 'num_pkts_in' in flow and 'num_pkts_out' in flow:
+                        if flow['num_pkts_out'] == 0 and flow['num_pkts_in'] == 0:
+                            tmp.append(0)
+                        elif flow['num_pkts_out'] == 0:
+                            tmp.append(flow['num_pkts_in'])
+                        elif flow['num_pkts_in'] == 0:
+                            tmp.append(1/flow['num_pkts_out'])
+                        else:
+                            tmp.append(flow['num_pkts_in']/flow['num_pkts_out'])
+                    elif 'num_pkts_in' in flow:
+                        tmp.append(flow['num_pkts_in'])
+                    else:
+                        if flow['num_pkts_out'] == 0:
+                            tmp.append(0)
+                        else:   
+                            tmp.append(1/flow['num_pkts_out'])
+            if BYTES or self.analyse:
+                if self.analyse:
+                    # Bytes in
+                    if 'bytes_in' in flow:
+                        tmp.append(flow['bytes_in']) # inbound bytes
+                    else:
+                        tmp.append(0)
+                    # Bytes out
+                    if 'bytes_out' in flow:
+                        tmp.append(flow['bytes_out']) # outbound bytes
+                    else:
+                        tmp.append(0)
+                else: 
+                    # Bytes in/Bytes out Ration
+                    if 'bytes_in' in flow and 'bytes_out' in flow:
+                        if flow['bytes_in'] == 0 and flow['bytes_out'] == 0:
+                            tmp.append(0)
+                        elif flow['bytes_in'] == 0:
+                            tmp.append(1/flow['bytes_out'])
+                        elif flow['bytes_out'] == 0:
+                            tmp.append(flow['bytes_in'])
+                        else:
+                            tmp.append(flow['bytes_in']/flow['bytes_out'])                    
+                    elif 'bytes_in' in flow:
+                        tmp.append(flow['bytes_in'])
+                    else:
+                        if flow['bytes_out'] == 0:
+                            tmp.append(0)
+                        else:
+                            tmp.append(1/flow['bytes_out'])
+                
+            if FLOW_TIME or self.analyse:
                 # Elapsed time of flow
                 if flow['packets'] == []:
                     tmp.append(0)
@@ -220,7 +258,7 @@ class DataParser:
                     for packet in flow['packets']:
                         time += packet['ipt']
                     tmp.append(time)
-            if WHT:
+            if WHT or self.analyse:
                 # WHT
                 if "wht" in flow:
                     whtFields = list(flow["wht"])
@@ -233,25 +271,25 @@ class DataParser:
                     tmp.append(0)
                     tmp.append(0)
                     tmp.append(0)
-            if BYTE_DIST_M:
+            if BYTE_DIST_M or self.analyse:
                 # Byte Dist Mean
                 if "byte_dist_mean" in flow:
                     tmp.append(flow["byte_dist_mean"])
                 else:
                     tmp.append(0)
-            if BYTE_DIST_S:
+            if BYTE_DIST_S or self.analyse:
                 # Byte Dist Std
                 if "byte_dist_std" in flow:
                     tmp.append(flow["byte_dist_std"])
                 else:
                     tmp.append(0) 
-            if ENTROPY:
+            if ENTROPY or self.analyse:
                 # Entropy
                 if "entropy" in flow:
                     tmp.append(flow["entropy"])
                 else:
                     tmp.append(0)
-            if IDP:
+            if IDP or self.analyse:
                 # IDP in
                 if "idp_len_in" in flow:
                     tmp.append(flow["idp_len_in"])
