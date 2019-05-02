@@ -85,8 +85,8 @@ class DataParser:
         analyse_data = [] #list of matrixes for jupyter graphs
 
         if self.compact:
-            numRows = 10
-            binSize = 150.0
+            numRows = 5
+            binSize = 100.0
         else:
             numRows = 60
             binSize = 25.0

@@ -8,6 +8,7 @@ class Pull:
         self.flow_cnt = 0
         self.features_cnt = 0
         self.label = label
+        self.errors = 0
 
         self.load_data(idir)
 
@@ -20,6 +21,7 @@ class Pull:
                 self.flow_cnt += dParse.lines_cnt
             except:
                 print("Error: failued to parse file", (idir + f))
+                self.errors += 1
                 continue
 
             # binary classification label
@@ -31,13 +33,13 @@ class Pull:
 
             # Features extraction
             #tmpBD, tmpBDL = dParse.getByteDistribution()
-            #tmpIPT = dParse.getIndividualFlowIPTs()
+            tmpIPT = dParse.getIndividualFlowIPTs()
             tmpPL = dParse.getIndividualFlowPacketLengths()
             tmp = dParse.getIndividualFlowMetadata(PKTS=0, BYTES=0, FLOW_TIME=0, WHT=1, BYTE_DIST_M=0, BYTE_DIST_S=1, ENTROPY=0, IDP=1)
             
-            if tmp != None:# and tmpPL != None and tmpIPT != None:
+            if tmpPL != None:# and tmpPL != None and tmpIPT != None:
                 # iterate over every flow
-                for i in range(len(tmp)):
+                for i in range(len(tmpPL)):
                     tmp_data = []
                     tmp_data.extend(tmp[i])
                     tmp_data.extend(tmpPL[i])
